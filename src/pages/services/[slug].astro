@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { services } from "../../data/site";
+import { services, sitePath } from "../../data/site";
 
 export function getStaticPaths() {
   return services.map((service) => ({
@@ -34,8 +34,8 @@ const description = service.summary;
     <div class="wrap prose">
       {service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
       <div class="actions">
-        <a class="btn" href="/contact">Ask about this work</a>
-        <a class="btn ghost" href="/services">All services</a>
+        <a class="btn" href={sitePath("/contact")}>Ask about this work</a>
+        <a class="btn ghost" href={sitePath("/services")}>All services</a>
       </div>
     </div>
   </section>

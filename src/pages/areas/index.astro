@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { areas, site } from "../../data/site";
+import { areas, site, sitePath } from "../../data/site";
 
 const title = "Areas | Kettering Building Company Ltd";
 const description =
@@ -29,7 +29,7 @@ const description =
       <div class="cards">
         {
           areas.map((area) => (
-            <a class="area-card" href={`/areas/${area.slug}`}>
+            <a class="area-card" href={sitePath(`/areas/${area.slug}`)}>
               <h2>{area.title}</h2>
               <p>{area.summary}</p>
             </a>

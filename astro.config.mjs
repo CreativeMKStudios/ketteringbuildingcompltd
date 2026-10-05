@@ -1,9 +1,10 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
-// Change `site` to the live domain before you publish. Canonical links and the sitemap use it.
+// Public site: https://creativemkstudios.github.io/ketteringbuildingcompanyltd/
 export default defineConfig({
-  site: "https://ketteringbuildingcompanyltd.co.uk",
+  site: "https://creativemkstudios.github.io",
+  base: "/ketteringbuildingcompanyltd",
   trailingSlash: "never",
   compressHTML: true,
   build: {

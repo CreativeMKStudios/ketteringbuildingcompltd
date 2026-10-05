@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
-import { faqs, googleReviews, services, site } from "../data/site";
+import { faqs, googleReviews, services, site, sitePath } from "../data/site";
 
 const title = "Kettering Building Company Ltd | Builders in Kettering";
 const description =
@@ -37,7 +37,7 @@ const faqSchema = {
         </p>
         <div class="actions">
           <a class="btn" href={`tel:${site.phoneTel}`}>Call {site.phoneDisplay}</a>
-          <a class="btn ghost" href="/reviews">Read the reviews</a>
+          <a class="btn ghost" href={sitePath("/reviews")}>Read the reviews</a>
         </div>
       </div>
     </div>
@@ -53,7 +53,7 @@ const faqSchema = {
         {
           services.map((service, index) => (
             <li>
-              <a href={`/services/${service.slug}`}>
+              <a href={sitePath(`/services/${service.slug}`)}>
                 <span class="num">0{index + 1}</span>
                 <span>
                   <strong>{service.title}</strong>
@@ -119,8 +119,8 @@ const faqSchema = {
         }
       </div>
       <div class="actions">
-        <a class="btn ghost" href="/reviews">All reviews</a>
-        <a class="btn ghost" href="/projects">Work customers described</a>
+        <a class="btn ghost" href={sitePath("/reviews")}>All reviews</a>
+        <a class="btn ghost" href={sitePath("/projects")}>Work customers described</a>
       </div>
     </div>
   </section>
@@ -134,7 +134,7 @@ const faqSchema = {
           The pin is in Kettering. Nearby pages cover Barton Seagrave, Burton Latimer, Rothwell and Desborough. They explain the area. They do not invent jobs.
         </p>
         <div class="actions">
-          <a class="btn" href="/areas">Areas we can talk about</a>
+          <a class="btn" href={sitePath("/areas")}>Areas we can talk about</a>
         </div>
       </div>
       <div>

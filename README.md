@@ -13,6 +13,8 @@ npm run build
 npm run preview
 ```
 
-Set `site` in `astro.config.mjs` to the real domain before you publish. Canonical links, the sitemap, and `public/robots.txt` use `https://ketteringbuildingcompanyltd.co.uk` until you change them.
+The public site is published from `main` to GitHub Pages:
+
+https://creativemkstudios.github.io/ketteringbuildingcompanyltd
 
 No page on this site can guarantee a Google ranking.

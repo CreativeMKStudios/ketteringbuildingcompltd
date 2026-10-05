@@ -1,5 +1,5 @@
 ---
-import { site, hours } from "../data/site";
+import { site, hours, sitePath } from "../data/site";
 
 interface Props {
   year: number;
@@ -36,13 +36,13 @@ const { year } = Astro.props;
     <div>
       <h2>Pages</h2>
       <ul>
-        <li><a href="/about">About</a></li>
-        <li><a href="/services">Services</a></li>
-        <li><a href="/projects">Projects</a></li>
-        <li><a href="/reviews">Reviews</a></li>
-        <li><a href="/areas">Areas</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/privacy">Privacy</a></li>
+        <li><a href={sitePath("/about")}>About</a></li>
+        <li><a href={sitePath("/services")}>Services</a></li>
+        <li><a href={sitePath("/projects")}>Projects</a></li>
+        <li><a href={sitePath("/reviews")}>Reviews</a></li>
+        <li><a href={sitePath("/areas")}>Areas</a></li>
+        <li><a href={sitePath("/contact")}>Contact</a></li>
+        <li><a href={sitePath("/privacy")}>Privacy</a></li>
       </ul>
     </div>
   </div>

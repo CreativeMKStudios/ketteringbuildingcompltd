@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { services } from "../../data/site";
+import { services, sitePath } from "../../data/site";
 
 const title = "Services | Kettering Building Company Ltd";
 const description =
@@ -30,7 +30,7 @@ const description =
         {
           services.map((service, index) => (
             <li>
-              <a href={`/services/${service.slug}`}>
+              <a href={sitePath(`/services/${service.slug}`)}>
                 <span class="num">0{index + 1}</span>
                 <span>
                   <strong>{service.title}</strong>

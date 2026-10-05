@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { sitePath } from "../data/site";
 
 const title = "Page not found | Kettering Building Company Ltd";
 const description = "That page is not on this site.";
@@ -12,8 +13,8 @@ const description = "That page is not on this site.";
       <h1>This page is not here.</h1>
       <p class="lede">The link may be old. The main pages are still on the menu.</p>
       <div class="actions">
-        <a class="btn" href="/">Back to the home page</a>
-        <a class="btn ghost" href="/contact">Contact</a>
+        <a class="btn" href={sitePath("/")}>Back to the home page</a>
+        <a class="btn ghost" href={sitePath("/contact")}>Contact</a>
       </div>
     </div>
   </header>

@@ -1,6 +1,6 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { areas, site } from "../../data/site";
+import { areas, site, sitePath } from "../../data/site";
 
 export function getStaticPaths() {
   return areas.map((area) => ({
@@ -37,8 +37,8 @@ const description = area.summary;
         The base address is {site.street}, {site.locality}, {site.postcode}. Phone {site.phoneDisplay}.
       </p>
       <div class="actions">
-        <a class="btn" href="/contact">Contact</a>
-        <a class="btn ghost" href="/areas">All areas</a>
+        <a class="btn" href={sitePath("/contact")}>Contact</a>
+        <a class="btn ghost" href={sitePath("/areas")}>All areas</a>
       </div>
     </div>
   </section>

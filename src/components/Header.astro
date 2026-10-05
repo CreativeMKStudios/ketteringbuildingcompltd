@@ -1,11 +1,12 @@
 ---
-import { nav } from "../data/site";
+import { nav, sitePath } from "../data/site";
 
-const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const path = (Astro.url.pathname.replace(/\/$/, "") || "/").replace(base, "") || "/";
 ---
 
 <header class="site-header">
-  <a class="wordmark" href="/" aria-label="Kettering Building Company, home">
+  <a class="wordmark" href={sitePath("/")} aria-label="Kettering Building Company, home">
     <span>Kettering</span>
     <span>Building</span>
     <span>Company</span>
@@ -22,7 +23,7 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
           const current = item.href === "/" ? path === "/" : path === item.href || path.startsWith(`${item.href}/`);
           return (
             <li>
-              <a href={item.href} aria-current={current ? "page" : undefined}>
+              <a href={sitePath(item.href)} aria-current={current ? "page" : undefined}>
                 {item.label}
               </a>
             </li>

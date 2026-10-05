@@ -310,6 +310,13 @@ export const faqs = [
   },
 ];
 
+export function sitePath(pathname: string) {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  if (pathname === "/" || pathname === "") return base === "" ? "/" : `${base}/`;
+  const clean = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  return `${base}${clean}`;
+}
+
 export const nav = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },

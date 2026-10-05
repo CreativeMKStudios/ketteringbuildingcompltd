@@ -1,5 +1,6 @@
 ---
 import Base from "../layouts/Base.astro";
+import { sitePath } from "../data/site";
 
 const title = "Projects | Kettering Building Company Ltd";
 const description =
@@ -60,8 +61,8 @@ const jobs = [
         }
       </ol>
       <div class="actions">
-        <a class="btn" href="/reviews">Read every review</a>
-        <a class="btn ghost" href={"/contact"}>Ask about a job</a>
+        <a class="btn" href={sitePath("/reviews")}>Read every review</a>
+        <a class="btn ghost" href={sitePath("/contact")}>Ask about a job</a>
       </div>
     </div>
   </section>

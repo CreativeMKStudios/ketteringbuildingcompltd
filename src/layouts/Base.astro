@@ -7,7 +7,7 @@ import "@fontsource/outfit/latin-600.css";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-import { site } from "../data/site";
+import { site, sitePath } from "../data/site";
 
 interface Crumb {
   name: string;
@@ -23,19 +23,20 @@ interface Props {
 
 const { title, description, crumbs = [], noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL("/og.png", Astro.site);
+const ogImage = new URL(sitePath("/og.png"), Astro.site);
+const publicUrl = new URL(import.meta.env.BASE_URL, Astro.site).href;
 
 const graph = {
   "@context": "https://schema.org",
   "@graph": [
     {
       "@type": "HomeAndConstructionBusiness",
-      "@id": `${Astro.site}#business`,
+      "@id": `${publicUrl}#business`,
       name: site.name,
       legalName: site.legalName,
       description:
         "Home builder listed at 34 St Oswalds Close, Kettering. Company number 15135190 was dissolved on 18 February 2025. Phone and hours match the Google listing.",
-      url: Astro.site?.href,
+      url: publicUrl,
       telephone: site.phoneTel,
       image: ogImage.href,
       address: {
@@ -76,11 +77,11 @@ const graph = {
     },
     {
       "@type": "WebSite",
-      "@id": `${Astro.site}#website`,
-      url: Astro.site?.href,
+      "@id": `${publicUrl}#website`,
+      url: publicUrl,
       name: site.name,
       inLanguage: "en-GB",
-      publisher: { "@id": `${Astro.site}#business` },
+      publisher: { "@id": `${publicUrl}#business` },
     },
     {
       "@type": "WebPage",
@@ -88,8 +89,8 @@ const graph = {
       url: canonical.href,
       name: title,
       description,
-      isPartOf: { "@id": `${Astro.site}#website` },
-      about: { "@id": `${Astro.site}#business` },
+      isPartOf: { "@id": `${publicUrl}#website` },
+      about: { "@id": `${publicUrl}#business` },
       inLanguage: "en-GB",
     },
     ...(crumbs.length
@@ -100,7 +101,7 @@ const graph = {
               "@type": "ListItem",
               position: index + 1,
               name: crumb.name,
-              item: new URL(crumb.path, Astro.site).href,
+              item: new URL(sitePath(crumb.path), Astro.site).href,
             })),
           },
         ]
@@ -134,9 +135,9 @@ const year = 2026;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage.href} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="manifest" href="/site.webmanifest" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href={sitePath("/favicon.svg")} type="image/svg+xml" />
+    <link rel="manifest" href={sitePath("/site.webmanifest")} />
+    <link rel="sitemap" href={sitePath("/sitemap-index.xml")} />
     <script type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
   <body>
@@ -148,7 +149,7 @@ const year = 2026;
     <Footer year={year} />
     <div class="callbar">
       <a href={`tel:${site.phoneTel}`}>Call</a>
-      <a href="/contact">Send a note</a>
+      <a href={sitePath("/contact")}>Send a note</a>
     </div>
   </body>
 </html>
