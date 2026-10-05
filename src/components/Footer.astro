@@ -1,0 +1,57 @@
+---
+import { site, hours } from "../data/site";
+
+interface Props {
+  year: number;
+}
+const { year } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h2>Visit</h2>
+      <p>
+        {site.street}<br />
+        {site.locality}<br />
+        {site.postcode}
+      </p>
+      <p>
+        <a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a><br />
+        <a href={site.mapsUrl}>Open the Google listing</a>
+      </p>
+    </div>
+    <div>
+      <h2>Hours on Google</h2>
+      <ul>
+        {
+          hours.map((row) => (
+            <li>
+              {row.day}: {row.lines.join(", ")}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <h2>Pages</h2>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/reviews">Reviews</a></li>
+        <li><a href="/areas">Areas</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap fine">
+    <p>
+      {site.legalName}, company number {site.companyNumber}, was incorporated on {site.incorporated} and dissolved on {site.dissolved}.
+      Source: <a href={site.companiesHouse}>Companies House</a>. Phone, hours, category and the pin match the Google listing checked on {site.checked}.
+      This site does not promise a place on Google.
+    </p>
+    <p>© {year} {site.name}</p>
+  </div>
+</footer>

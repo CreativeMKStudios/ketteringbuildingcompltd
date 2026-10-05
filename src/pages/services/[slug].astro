@@ -1,0 +1,42 @@
+---
+import Base from "../../layouts/Base.astro";
+import { services } from "../../data/site";
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const title = `${service.title} in Kettering | Kettering Building Company Ltd`;
+const description = service.summary;
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: service.title, path: `/services/${service.slug}` },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Services</p>
+      <h1>{service.title}</h1>
+      <p class="lede">{service.summary}</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap prose">
+      {service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <div class="actions">
+        <a class="btn" href="/contact">Ask about this work</a>
+        <a class="btn ghost" href="/services">All services</a>
+      </div>
+    </div>
+  </section>
+</Base>

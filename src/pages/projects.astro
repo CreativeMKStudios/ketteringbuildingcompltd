@@ -1,0 +1,89 @@
+---
+import Base from "../layouts/Base.astro";
+
+const title = "Projects | Kettering Building Company Ltd";
+const description =
+  "Jobs customers described: a levelled and tiled kitchen floor, and laminate flooring. The Google listing has no photo gallery to republish.";
+
+const jobs = [
+  {
+    title: "Kitchen floor, levelled and tiled",
+    when: "September and October 2023",
+    text: "A Google review on 9 October 2023 says a kitchen floor was levelled and tiled, the price was fair, and contact was good. Carrie, writing from LE15 on Rated People on 29 September 2023, describes levelling and tiling a kitchen floor. This may be one job told in two places. No photo of the floor was on the Google listing.",
+  },
+  {
+    title: "Laminate flooring",
+    when: "6 October 2023",
+    text: "A Google review that day says laminate flooring was laid and recommends the firm. The review does not name the town or the room. There is no photo with it.",
+  },
+  {
+    title: "Building work praised, and one job strongly criticised",
+    when: "October 2023 and June 2024",
+    text: "On 14 October 2023 a review names Paul and the team and praises the care of the work. It does not say what was built. On 22 June 2024 a 1-star review says a house was left damaged, a garden was filled with rubble, tiling was out of plumb, and the plumbing was poor. That review is quoted in full on the reviews page.",
+  },
+];
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Projects</p>
+      <h1>Work customers described.</h1>
+      <p class="lede">
+        The Google listing does not have a photo gallery we could copy. New posts on that listing are turned off. These notes use review text only. They are not staged photos of someone else’s houses.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <ol class="index-list">
+        {
+          jobs.map((job, index) => (
+            <li>
+              <article class="project">
+                <span class="num">0{index + 1}</span>
+                <div>
+                  <h2>{job.title}</h2>
+                  <p class="kicker">{job.when}</p>
+                  <p>{job.text}</p>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="actions">
+        <a class="btn" href="/reviews">Read every review</a>
+        <a class="btn ghost" href={"/contact"}>Ask about a job</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .project {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--line);
+  }
+  ol li:last-child .project {
+    border-bottom: 1px solid var(--line);
+  }
+  h2 {
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+  }
+  @media (max-width: 640px) {
+    .project {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+import { site } from "../data/site";
+
+const title = "Privacy | Kettering Building Company Ltd";
+const description =
+  "How this Kettering Building Company site handles your details. The contact form opens a text on your phone and does not store messages on a server.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Privacy", path: "/privacy" },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Privacy</p>
+      <h1>What this site keeps.</h1>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap prose">
+      <p>
+        This site is a set of pages about {site.name}. It does not run a shop, a login, or an analytics tool. It does not set its own cookies.
+      </p>
+      <p>
+        The contact form checks that you filled in the fields. It then opens your phone’s text app, addressed to {site.phoneDisplay}, with your note in the message. If you send that text, your phone network and the person who holds that number receive it. This website does not keep a copy.
+      </p>
+      <p>
+        The map is loaded from OpenStreetMap. Their servers will see your IP address when the map frame loads. The Google listing link leaves this site.
+      </p>
+      <p>
+        Company facts on these pages come from Companies House, the Google listing, and Rated People. They were checked on {site.checked}. Public records can change. The Companies House page is the live source for company status.
+      </p>
+      <p>
+        To ask about a note you sent by text, call {site.phoneDisplay}. This site has no separate email inbox.
+      </p>
+    </div>
+  </section>
+</Base>

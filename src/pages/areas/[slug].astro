@@ -1,0 +1,45 @@
+---
+import Base from "../../layouts/Base.astro";
+import { areas, site } from "../../data/site";
+
+export function getStaticPaths() {
+  return areas.map((area) => ({
+    params: { slug: area.slug },
+    props: { area },
+  }));
+}
+
+const { area } = Astro.props;
+const title = `Builders near ${area.title} | Kettering Building Company Ltd`;
+const description = area.summary;
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Areas", path: "/areas" },
+    { name: area.title, path: `/areas/${area.slug}` },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Areas</p>
+      <h1>{area.title}</h1>
+      <p class="lede">{area.summary}</p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap prose">
+      {area.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      <p>
+        The base address is {site.street}, {site.locality}, {site.postcode}. Phone {site.phoneDisplay}.
+      </p>
+      <div class="actions">
+        <a class="btn" href="/contact">Contact</a>
+        <a class="btn ghost" href="/areas">All areas</a>
+      </div>
+    </div>
+  </section>
+</Base>

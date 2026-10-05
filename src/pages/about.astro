@@ -1,0 +1,97 @@
+---
+import Base from "../layouts/Base.astro";
+import { ratedPeopleAbout, sic, site } from "../data/site";
+
+const title = "About | Kettering Building Company Ltd";
+const description =
+  "Kettering Building Company Ltd, company 15135190, was set up on 13 September 2023 and dissolved on 18 February 2025. Director: Lukas Flitar. Based in Kettering.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">About</p>
+      <h1>A short company, and a public record.</h1>
+      <p class="lede">
+        This page sticks to Companies House, the Google listing, and the words on the Rated People profile. It does not add years, awards, or insurance that we could not find.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap split">
+      <div class="prose">
+        <h2>The company</h2>
+        <p>
+          {site.legalName} was incorporated on {site.incorporated}. The company number is {site.companyNumber}. {site.director} was appointed director the same day.
+          Companies House dissolved the company on {site.dissolved}.
+        </p>
+        <p>
+          The registered office is {site.street}, {site.locality}, {site.postcode}. That is the same address as the Google pin. Google calls the business a {site.category.toLowerCase()}.
+          There is no website field filled in on the listing. The phone shown there is {site.phoneDisplay}.
+        </p>
+        <p>
+          A dissolved limited company is not a live company. If someone still answers the old number, ask which name would be on the contract, and search that name on Companies House yourself.
+        </p>
+        <p>
+          <a href={site.companiesHouse}>Open the Companies House record</a>
+        </p>
+      </div>
+      <div>
+        <h2>Registered activities</h2>
+        <ol class="index-list">
+          {
+            sic.map((row) => (
+              <li>
+                <div class="index-static">
+                  <span class="num">{row.code}</span>
+                  <span>{row.name}</span>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap prose">
+      <h2>In their own words</h2>
+      <p>This is the about text on the Rated People profile for Kettering Building Company, left as it was written.</p>
+      <blockquote class="quote">
+        <p>“{ratedPeopleAbout}”</p>
+        <footer>
+          Rated People profile · <a href={site.ratedPeople}>ratedpeople.com/profile/lukas-flitar</a>
+        </footer>
+      </blockquote>
+      <p>
+        The profile says the business is family run, has been in the trade for many years, and used to work for large development firms. Those are their words. This site does not turn “many years” into a number, because no start year is given.
+      </p>
+      <p>
+        A Google review names “Paul and the team”. Companies House names {site.director} as director. This site does not guess how those names fit together.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .index-static {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--line);
+  }
+  ol li:last-child .index-static {
+    border-bottom: 1px solid var(--line);
+  }
+  blockquote {
+    margin: 1rem 0 1.4rem;
+  }
+</style>

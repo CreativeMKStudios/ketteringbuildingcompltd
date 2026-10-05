@@ -1,0 +1,121 @@
+---
+import Base from "../layouts/Base.astro";
+import { hours, site } from "../data/site";
+
+const title = "Contact | Kettering Building Company Ltd";
+const description =
+  "Call Kettering Building Company Ltd on 07305 570785. Address: 34 St Oswalds Close, Kettering, NN15 5HZ. No public email was found.";
+
+const bbox = `${site.lng - 0.01},${site.lat - 0.006},${site.lng + 0.01},${site.lat + 0.006}`;
+const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${site.lat}%2C${site.lng}`;
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Contact", path: "/contact" },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Contact</p>
+      <h1>Call, or send a text.</h1>
+      <p class="lede">
+        The Google listing has a phone number and no email. This form does not store your note on a server. On a phone, it opens a text to {site.phoneDisplay}. On a computer, it shows the message so you can read it out when you call.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap split">
+      <form id="quote-form" novalidate>
+        <label>
+          Your name
+          <input name="name" autocomplete="name" required maxlength="80" />
+        </label>
+        <label>
+          Your phone
+          <input name="phone" type="tel" autocomplete="tel" required maxlength="30" />
+        </label>
+        <label>
+          Town
+          <input name="town" autocomplete="address-level2" required maxlength="80" />
+        </label>
+        <label>
+          The job
+          <textarea name="job" required maxlength="600" placeholder="Room, what you want done, and when."></textarea>
+        </label>
+        <p class="error" id="form-error" hidden>Add your name, phone, town, and a short note about the job.</p>
+        <button class="btn" type="submit">Prepare the message</button>
+        <p class="form-note" id="form-result" hidden></p>
+      </form>
+      <div>
+        <h2>Listing details</h2>
+        <p>
+          {site.name}<br />
+          {site.street}<br />
+          {site.locality}, {site.postcode}<br />
+          Plus code {site.plusCode}
+        </p>
+        <p><a href={`tel:${site.phoneTel}`}>{site.phoneDisplay}</a></p>
+        <p><a href={site.mapsUrl}>Google listing</a></p>
+        <table class="hours">
+          <caption class="kicker">Hours published on Google</caption>
+          <tbody>
+            {
+              hours.map((row) => (
+                <tr>
+                  <th scope="row">{row.day}</th>
+                  <td>{row.lines.join(" · ")}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <p class="form-note">Sunday is closed. Monday and Thursday run until midnight on the listing. Tuesday and Friday also show a midnight-to-6am slot.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <h2>Map</h2>
+      <iframe
+        class="map-frame"
+        title="Map of 34 St Oswalds Close, Kettering"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src={mapSrc}></iframe>
+      <p>
+        <a href={`https://www.openstreetmap.org/?mlat=${site.lat}&mlon=${site.lng}#map=17/${site.lat}/${site.lng}`}>View the map larger</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#quote-form");
+  const error = document.querySelector<HTMLElement>("#form-error");
+  const result = document.querySelector<HTMLElement>("#form-result");
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!form || !error || !result) return;
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const phone = String(data.get("phone") || "").trim();
+    const town = String(data.get("town") || "").trim();
+    const job = String(data.get("job") || "").trim();
+    if (!name || !phone || !town || job.length < 8) {
+      error.hidden = false;
+      result.hidden = true;
+      return;
+    }
+    error.hidden = true;
+    const message = `Kettering Building Company. Name: ${name}. Phone: ${phone}. Town: ${town}. Job: ${job}`;
+    result.hidden = false;
+    result.textContent = message;
+    const sms = `sms:+447305570785?&body=${encodeURIComponent(message)}`;
+    window.location.href = sms;
+  });
+</script>
