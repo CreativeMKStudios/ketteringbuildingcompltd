@@ -1,0 +1,172 @@
+---
+import Base from "../layouts/Base.astro";
+import Hero from "../components/Hero.astro";
+import { faqs, googleReviews, services, site, sitePath } from "../data/site";
+
+const title = "Kettering Building Company Ltd | Builders in Kettering";
+const description =
+  "Home builder at 34 St Oswalds Close, Kettering, NN15 5HZ. Floors, tiling and painting. Google rating 4.5 from 8 reviews. Company 15135190 was dissolved in 2025.";
+
+const preview = [googleReviews[0], googleReviews[3], googleReviews[4]];
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: { "@type": "Answer", text: item.answer },
+  })),
+};
+---
+
+<Base title={title} description={description} crumbs={[{ name: "Home", path: "/" }]}>
+  <Hero />
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">The listing</p>
+        <h2>A Kettering builder, with the record left in plain sight.</h2>
+      </div>
+      <div class="notice">
+        <p>
+          <strong>{site.legalName}</strong> ({site.companyNumber}) was incorporated on {site.incorporated} and dissolved on {site.dissolved}.
+          The Google listing is still public at {site.street}, {site.postcode}. The phone is {site.phoneDisplay}.
+        </p>
+        <p>
+          On {site.ratingChecked} Google showed {site.rating} stars from {site.reviewCount} reviews. One of the reviews we could read is 1 star. Read it before you call.
+        </p>
+        <div class="actions">
+          <a class="btn" href={`tel:${site.phoneTel}`}>Call {site.phoneDisplay}</a>
+          <a class="btn ghost" href={sitePath("/reviews")}>Read the reviews</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>What the record covers</h2>
+        <p>Services follow Companies House and the words customers wrote. No extra trades are added.</p>
+      </div>
+      <ol class="index-list">
+        {
+          services.map((service, index) => (
+            <li>
+              <a href={sitePath(`/services/${service.slug}`)}>
+                <span class="num">0{index + 1}</span>
+                <span>
+                  <strong>{service.title}</strong>
+                  <br />
+                  <span style="color: var(--muted)">{service.summary}</span>
+                </span>
+                <span class="go">View</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>How to start</h2>
+        <p>Three checks before money changes hands.</p>
+      </div>
+      <div class="steps">
+        <article>
+          <h3>Call and name the job</h3>
+          <p>Say the address, the room or the build, and when you need it. The number on Google is {site.phoneDisplay}.</p>
+        </article>
+        <article>
+          <h3>Get the price in writing</h3>
+          <p>Ask what is included, what happens to waste, and who the contract is with. A dissolved company should not be the party on a new contract.</p>
+        </article>
+        <article>
+          <h3>Check the public record</h3>
+          <p>
+            Look up {site.companyNumber} on <a href={site.companiesHouse}>Companies House</a>, and read the 1-star review as well as the 5-star ones.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>From the Google reviews</h2>
+        <p>Quotes are kept as written, including spelling. Names were not in the public copy we could read.</p>
+      </div>
+      <div class="cards">
+        {
+          preview.map((review) => (
+            <figure class="quote">
+              <div class:list={["stars", { low: review.rating < 4 }]} aria-label={`${review.rating} out of 5`}>
+                {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
+              </div>
+              <blockquote>
+                <p>“{review.text}”</p>
+              </blockquote>
+              <footer>
+                Google review · {review.dateLabel}
+                {review.truncated ? " · indexed copy ends here" : ""}
+              </footer>
+            </figure>
+          ))
+        }
+      </div>
+      <div class="actions">
+        <a class="btn ghost" href={sitePath("/reviews")}>All reviews</a>
+        <a class="btn ghost" href={sitePath("/projects")}>Work customers described</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <p class="kicker">Local</p>
+        <h2>Based on Ise Lodge. Ask about the towns next door.</h2>
+        <p class="lede">
+          The pin is in Kettering. Nearby pages cover Barton Seagrave, Burton Latimer, Rothwell and Desborough. They explain the area. They do not invent jobs.
+        </p>
+        <div class="actions">
+          <a class="btn" href={sitePath("/areas")}>Areas we can talk about</a>
+        </div>
+      </div>
+      <div>
+        <h3>Questions people ask</h3>
+        {
+          faqs.map((item) => (
+            <details>
+              <summary>{item.question}</summary>
+              <p>{item.answer}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</Base>
+
+<style>
+  details {
+    border-top: 1px solid var(--line);
+    padding: 0.85rem 0;
+  }
+  details:last-of-type {
+    border-bottom: 1px solid var(--line);
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 560;
+  }
+  details p {
+    color: var(--muted);
+    margin: 0.6rem 0 0.2rem;
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import Base from "../../layouts/Base.astro";
+import { services, sitePath } from "../../data/site";
+
+const title = "Services | Kettering Building Company Ltd";
+const description =
+  "Home building, floors and tiling, painting, and demolition, as recorded for Kettering Building Company Ltd. No trades are added beyond the public record.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Services</p>
+      <h1>The work named in public.</h1>
+      <p class="lede">
+        Each page matches a Companies House activity, a Google category, or a job a customer described. Checkbox lists from trade sites are not copied in. Those lists often add trades a firm has never done.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <ol class="index-list">
+        {
+          services.map((service, index) => (
+            <li>
+              <a href={sitePath(`/services/${service.slug}`)}>
+                <span class="num">0{index + 1}</span>
+                <span>
+                  <strong>{service.title}</strong>
+                  <br />
+                  <span style="color: var(--muted)">{service.summary}</span>
+                </span>
+                <span class="go">Read</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+</Base>

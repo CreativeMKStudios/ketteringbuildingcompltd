@@ -1,0 +1,155 @@
+---
+import "@fontsource/fraunces/latin-500.css";
+import "@fontsource/fraunces/latin-600.css";
+import "@fontsource/outfit/latin-400.css";
+import "@fontsource/outfit/latin-500.css";
+import "@fontsource/outfit/latin-600.css";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { site, sitePath } from "../data/site";
+
+interface Crumb {
+  name: string;
+  path: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs?: Crumb[];
+  noindex?: boolean;
+}
+
+const { title, description, crumbs = [], noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(sitePath("/og.png"), Astro.site);
+const publicUrl = new URL(import.meta.env.BASE_URL, Astro.site).href;
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HomeAndConstructionBusiness",
+      "@id": `${publicUrl}#business`,
+      name: site.name,
+      legalName: site.legalName,
+      description:
+        "Home builder listed at 34 St Oswalds Close, Kettering. Company number 15135190 was dissolved on 18 February 2025. Phone and hours match the Google listing.",
+      url: publicUrl,
+      telephone: site.phoneTel,
+      image: ogImage.href,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: site.street,
+        addressLocality: site.locality,
+        addressRegion: site.region,
+        postalCode: site.postcode,
+        addressCountry: site.countryCode,
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: site.lat,
+        longitude: site.lng,
+      },
+      hasMap: site.mapsUrl,
+      areaServed: {
+        "@type": "City",
+        name: "Kettering",
+        containedInPlace: { "@type": "AdministrativeArea", name: "Northamptonshire" },
+      },
+      openingHoursSpecification: [
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Monday", opens: "09:00", closes: "23:59" },
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Tuesday", opens: "00:00", closes: "06:00" },
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Tuesday", opens: "09:00", closes: "18:00" },
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Wednesday", opens: "09:00", closes: "18:00" },
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Thursday", opens: "09:00", closes: "23:59" },
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Friday", opens: "00:00", closes: "06:00" },
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Friday", opens: "09:00", closes: "18:00" },
+        { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "10:00", closes: "16:00" },
+      ],
+      identifier: {
+        "@type": "PropertyValue",
+        propertyID: "UK Companies House number",
+        value: site.companyNumber,
+      },
+      sameAs: [site.mapsUrl, site.companiesHouse, site.ratedPeople],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${publicUrl}#website`,
+      url: publicUrl,
+      name: site.name,
+      inLanguage: "en-GB",
+      publisher: { "@id": `${publicUrl}#business` },
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonical.href}#webpage`,
+      url: canonical.href,
+      name: title,
+      description,
+      isPartOf: { "@id": `${publicUrl}#website` },
+      about: { "@id": `${publicUrl}#business` },
+      inLanguage: "en-GB",
+    },
+    ...(crumbs.length
+      ? [
+          {
+            "@type": "BreadcrumbList",
+            itemListElement: crumbs.map((crumb, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              name: crumb.name,
+              item: new URL(sitePath(crumb.path), Astro.site).href,
+            })),
+          },
+        ]
+      : []),
+  ],
+};
+
+const year = 2026;
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#090c0f" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage.href} />
+    <link rel="icon" href={sitePath("/favicon.svg")} type="image/svg+xml" />
+    <link rel="manifest" href={sitePath("/site.webmanifest")} />
+    <link rel="sitemap" href={sitePath("/sitemap-index.xml")} />
+    <script type="application/ld+json" set:html={JSON.stringify(graph)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer year={year} />
+    <div class="callbar">
+      <a href={`tel:${site.phoneTel}`}>Call</a>
+      <a href={sitePath("/contact")}>Send a note</a>
+    </div>
+  </body>
+</html>

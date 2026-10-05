@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://creativemkstudios.github.io/ketteringbuildingcompanyltd/sitemap-index.xml

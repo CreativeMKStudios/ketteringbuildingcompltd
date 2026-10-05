@@ -1,0 +1,85 @@
+---
+import Base from "../layouts/Base.astro";
+import { googleReviews, ratedPeopleReviews, site } from "../data/site";
+
+const title = "Reviews | Kettering Building Company Ltd";
+const description =
+  "Google shows 4.5 stars from 8 reviews for Kettering Building Company Ltd. Seven review texts are quoted here, including a 1-star review from June 2024.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Reviews", path: "/reviews" },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Reviews</p>
+      <h1>{site.rating} from {site.reviewCount} on Google.</h1>
+      <p class="lede">
+        That score was on the Google listing on {site.ratingChecked}. Seven review texts are below, newest first. The text of the eighth review was not in the public copy we could read. Spelling is left as written. Reviewer names were not in that copy.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <h2>Google</h2>
+      <div class="review-list">
+        {
+          googleReviews.map((review) => (
+            <figure class="quote">
+              <div class:list={["stars", { low: review.rating < 4 }]} aria-label={`${review.rating} out of 5`}>
+                {"★".repeat(review.rating)}
+                {"☆".repeat(5 - review.rating)} {review.rating} / 5
+              </div>
+              <blockquote>
+                <p>“{review.text}”</p>
+              </blockquote>
+              <footer>
+                Google · {review.dateLabel}
+                {review.truncated ? " · the indexed copy ends here" : ""}
+              </footer>
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <h2>Rated People</h2>
+      <p class="lede">These two notes are from Rated People, not from Google. The profile shows two ratings, both positive.</p>
+      <div class="review-list">
+        {
+          ratedPeopleReviews.map((review) => (
+            <figure class="quote">
+              <div class="stars" aria-label={`${review.rating} out of 5`}>
+                {"★".repeat(review.rating)} {review.rating} / 5
+              </div>
+              <blockquote>
+                <p>“{review.text}”</p>
+              </blockquote>
+              <footer>
+                {review.author}, {review.place} · {review.dateLabel} · Rated People
+              </footer>
+            </figure>
+          ))
+        }
+      </div>
+      <p>
+        <a href={site.ratedPeople}>Open the Rated People profile</a> · <a href={site.mapsUrl}>Open the Google listing</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .review-list {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+</style>

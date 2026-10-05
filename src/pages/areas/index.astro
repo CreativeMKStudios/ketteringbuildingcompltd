@@ -1,0 +1,65 @@
+---
+import Base from "../../layouts/Base.astro";
+import { areas, site, sitePath } from "../../data/site";
+
+const title = "Areas | Kettering Building Company Ltd";
+const description =
+  "Kettering Building Company Ltd is based at NN15 5HZ. Pages for Kettering, Barton Seagrave, Burton Latimer, Rothwell and Desborough explain the area without inventing jobs.";
+---
+
+<Base
+  title={title}
+  description={description}
+  crumbs={[
+    { name: "Home", path: "/" },
+    { name: "Areas", path: "/areas" },
+  ]}
+>
+  <header class="page-hero">
+    <div class="wrap">
+      <p class="kicker">Areas</p>
+      <h1>Kettering, and the towns beside it.</h1>
+      <p class="lede">
+        The business is based at {site.street}. The Rated People profile says it covers 8 local areas near Kettering, but it does not name them. These pages are the base and the nearest towns. They are not a list of finished jobs.
+      </p>
+    </div>
+  </header>
+  <section class="section">
+    <div class="wrap">
+      <div class="cards">
+        {
+          areas.map((area) => (
+            <a class="area-card" href={sitePath(`/areas/${area.slug}`)}>
+              <h2>{area.title}</h2>
+              <p>{area.summary}</p>
+            </a>
+          ))
+        }
+      </div>
+      <div class="prose" style="margin-top: 2rem">
+        <h2>Other places you can ask about</h2>
+        <p>
+          Corby, Wellingborough, Isham, Broughton, Geddington, Weekley, Cranford and Pytchley are all a short drive from this address. Two reviewers on Rated People gave postcodes LE10 and LE15, which are Hinckley and the Oakham area, not Kettering. That shows at least two customers wrote from outside town. It does not mean the firm covers every street in those counties.
+        </p>
+        <p>Planning for all of these Northamptonshire places sits with <a href={site.councilPlanning}>North Northamptonshire Council</a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .area-card {
+    text-decoration: none;
+    display: block;
+  }
+  .area-card h2 {
+    font-size: 1.8rem;
+  }
+  .area-card p {
+    color: var(--muted);
+    margin: 0;
+  }
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+</style>

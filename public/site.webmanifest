@@ -1,0 +1,17 @@
+{
+  "name": "Kettering Building Company Ltd",
+  "short_name": "KBC",
+  "start_url": "/ketteringbuildingcompanyltd/",
+  "display": "standalone",
+  "background_color": "#090c0f",
+  "theme_color": "#090c0f",
+  "lang": "en-GB",
+  "icons": [
+    {
+      "src": "/ketteringbuildingcompanyltd/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
