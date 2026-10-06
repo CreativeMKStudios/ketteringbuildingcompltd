@@ -8,8 +8,8 @@ import sitemap from "@astrojs/sitemap";
 const onPages = process.env.GITHUB_PAGES === "true";
 const onCdn = process.env.CDN_PUBLISH === "true";
 const cdnOrigin = "https://cdn.jsdelivr.net";
-const cdnBase = "/gh/CreativeMKStudios/ketteringbuildingcompanyltd@site";
-const pagesBase = "/ketteringbuildingcompanyltd";
+const cdnBase = "/gh/CreativeMKStudios/ketteringbuildingcompltd@site";
+const pagesBase = "/ketteringbuildingcompltd";
 const voidTags = new Set([
   "area",
   "base",

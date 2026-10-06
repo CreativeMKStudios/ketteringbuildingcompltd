@@ -15,7 +15,7 @@ npm run preview
 
 The public site is the jsDelivr copy of the `site` branch. GitHub Pages for this repository returns 404 because Pages cannot be enabled from here.
 
-https://cdn.jsdelivr.net/gh/CreativeMKStudios/ketteringbuildingcompanyltd@site/index.xhtml
+https://cdn.jsdelivr.net/gh/CreativeMKStudios/ketteringbuildingcompltd@site/index.xhtml
 
 Build that copy with `CDN_PUBLISH=true npm run build`. Page addresses end in `index.xhtml`.
 

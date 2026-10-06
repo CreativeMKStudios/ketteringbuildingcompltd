@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cdn.jsdelivr.net/gh/CreativeMKStudios/ketteringbuildingcompanyltd@site/sitemap-index.xml
+Sitemap: https://cdn.jsdelivr.net/gh/CreativeMKStudios/ketteringbuildingcompltd@site/sitemap-index.xml
