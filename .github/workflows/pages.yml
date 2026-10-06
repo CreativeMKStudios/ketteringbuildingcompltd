@@ -2,11 +2,12 @@ name: Publish site
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -15,26 +16,66 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  publish-cdn:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist
+      - name: Install dependencies
+        run: npm ci
+      - name: Build the site
+        run: npm run build
+        env:
+          CDN_PUBLISH: "true"
+      - name: Publish the site branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          cd dist
+          git init
+          git checkout -b site
+          git add -A
+          git commit -m "Publish the Kettering site"
+          git push --force "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  deploy:
-    needs: build
+  deploy-pages:
     runs-on: ubuntu-latest
+    continue-on-error: true
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - id: deployment
+      - name: Check out the repository
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build the site
+        run: npm run build
+        env:
+          GITHUB_PAGES: "true"
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Turn on GitHub Pages
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api --method POST "/repos/${{ github.repository }}/pages" -f build_type=workflow \
+            || gh api --method PUT "/repos/${{ github.repository }}/pages" -f build_type=workflow
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
