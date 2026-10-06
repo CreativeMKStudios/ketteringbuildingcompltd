@@ -314,7 +314,9 @@ export function sitePath(pathname: string) {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   if (pathname === "/" || pathname === "") return base === "" ? "/" : `${base}/`;
   const clean = pathname.startsWith("/") ? pathname : `/${pathname}`;
-  return `${base}${clean}`;
+  const isFile = /\.[a-z0-9]+$/i.test(clean);
+  const withSlash = isFile || clean.endsWith("/") ? clean : `${clean}/`;
+  return `${base}${withSlash}`;
 }
 
 export const nav = [

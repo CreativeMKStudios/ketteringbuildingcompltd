@@ -13,8 +13,10 @@ npm run build
 npm run preview
 ```
 
-The public site is published from `main` to GitHub Pages:
+The public site is the jsDelivr copy of the `site` branch. GitHub Pages for this repository returns 404 because Pages cannot be enabled from here.
 
-https://creativemkstudios.github.io/ketteringbuildingcompanyltd
+https://cdn.jsdelivr.net/gh/CreativeMKStudios/ketteringbuildingcompltd@site/index.xhtml
+
+Build that copy with `CDN_PUBLISH=true npm run build`. Page addresses end in `index.xhtml`.
 
 No page on this site can guarantee a Google ranking.
